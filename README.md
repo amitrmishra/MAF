@@ -1,19 +1,39 @@
+# System Design
+![Image](images/MAFDataPipeline.jpg)
+
+# Design Description
+- Different systems/applications/users push data to the relation/non-relational store
+- Using Kafka Connect, we read the binlogs/oplogs of the sources and push changes in real time to Kafka Cluster
+- We use KSQL to make any real time transformations, filtering and formatting of the data in Kafka. The data is moved from raw Kafka topic to cleansed Kafka topic
+- Using Phoenix kafka consumer, we pull data to Operational Data Store. the Operational Data Store is HBase in our design to enable fast and random access to real time data
+- HBase acts as a real time and unified replica of the diverse data sources. It acts as source of data for <b>Real Time Data Analytics</b> or <b>Batch DWH Analytics</b>
+- 
+
+# What has been covered in the solution
+
+# Running the solution
 cd <PROJECT_DIR>
 
-# Build custom images
+### Build custom images
+
 cd connect-client
+
 docker build -t connect-client .
 
 cd ../mongodb
+
 docker build -t mongodb .
 
 cd ../producer/mongodb
+
 docker build -t mongodb-producer .
 
 cd ../mysql
+
 docker build -t mysql-producer .
 
 cd ../postgres
+
 docker build -t postgres-producer .
 
 cd ../..
