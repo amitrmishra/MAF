@@ -7,7 +7,9 @@
 - We use KSQL to make any real time transformations, filtering and formatting of the data in Kafka. The data is moved from raw Kafka topic to cleansed Kafka topic
 - Using Phoenix kafka consumer, we pull data to Operational Data Store. the Operational Data Store is HBase in our design to enable fast and random access to real time data
 - HBase acts as a real time and unified replica of the diverse data sources. It acts as source of data for <b>Real Time Data Analytics</b> or <b>Batch DWH Analytics</b>
-- 
+- The real time metrics are collected in Prometheus using custom jmx exporters. Metrics are collected from Kafka Connect, Kafka Brokers, KSQL and ODS
+- Metrics are exposed in grafana. Alerts are configured directly in Grafana.
+- The logs are stored in the central ELK using logstash plugin
 
 # What has been covered in the solution
 
@@ -40,6 +42,7 @@ cd ../..
 
 # To launch docker containers
 export VERSION=0.9
+
 docker-compose -f docker-compose.yaml up
 
 # To stop the docker containers
