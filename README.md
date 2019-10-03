@@ -1,4 +1,4 @@
-# Table of contents;
+# Table of contents
 - [ System Design ](#design)
 - [ Design Description ](#description)
 - [ What has been covered in the solution ](#coverage)
