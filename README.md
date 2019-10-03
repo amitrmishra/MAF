@@ -38,7 +38,7 @@ Following activities can be done in future to make it a complete solution.
 - Setup ELK and install logstash to run on kafka connect, kafka brokers, ksql machine, hbase cluster to parse and send the logs to elastic search. These logs can then be viewed using kibana. (Ref: https://www.freecodecamp.org/news/how-to-use-elasticsearch-logstash-and-kibana-to-visualise-logs-in-python-in-realtime-acaab281c9de/
 https://medium.com/krakensystems-blog/transforming-and-sending-nginx-log-data-to-elasticsearch-using-filebeat-and-logstash-part-1-61e4e19f5e54)
 - Setup phoenix kafka client to pull messages from kafka and insert into phoenix. (Ref: https://phoenix.apache.org/kafka.html)
-- Install proemetheus java agent on each machine and expose JMX metrics to be scrapped by promethues.
+- Install proemetheus java agent on each machine and expose JMX metrics to be scrapped by prometheus.
 - Setup prometheus to pull metrics and store it in time-series databases.
 - Setup grafana to get metrics from prometheus and visualize it.
 - We can also set up zeppelin/superset to query and then visualize data from phoenix
