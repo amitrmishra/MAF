@@ -2,7 +2,7 @@
 - [ System Design ](#design)
 - [ Design Description ](#description)
 - [ What has been covered in the solution ](#coverage)
-- [ Querying through API ](#futurework)
+- [ Future work ](#futurework)
 - [ Running the solution ](#runsolution)
 
 <a name="design"></a>
@@ -32,7 +32,7 @@ This solution is the part of the assignment. It is designed keeping in mind all 
 - HBase and Phoenix have been setup.
 
 <a name="futurework"></a>
-# Future tasks
+# Future work
 Following activities can be done in future to make it a complete solution.
 
 - Setup ELK and install logstash to run on kafka connect, kafka brokers, ksql machine, hbase cluster to parse and send the logs to elastic search. These logs can then be viewed using kibana. (Ref: https://www.freecodecamp.org/news/how-to-use-elasticsearch-logstash-and-kibana-to-visualise-logs-in-python-in-realtime-acaab281c9de/
