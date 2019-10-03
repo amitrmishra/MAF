@@ -40,7 +40,7 @@ https://medium.com/krakensystems-blog/transforming-and-sending-nginx-log-data-to
 - Setup phoenix kafka client to pull messages from kafka and insert into phoenix. (Ref: https://phoenix.apache.org/kafka.html)
 - Install proemetheus java agent on each machine and expose JMX metrics to be scrapped by promethues.
 - Setup prometheus to pull metrics and store it in time-series databases.
-- Setup graphana to get metrics from prometheus and visualize it.
+- Setup grafana to get metrics from prometheus and visualize it.
 - We can also set up zeppelin/superset to query and then visualize data from phoenix
 
 <a name="runsolution"></a>
