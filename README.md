@@ -1,6 +1,13 @@
+# System Design
+![Image](images/MAFDataPipeline.jpg)
+
+# What has been covered in the solution
+
+# Running the solution
 cd <PROJECT_DIR>
 
-# Build custom images
+### Build custom images
+
 cd connect-client
 docker build -t connect-client .
 
