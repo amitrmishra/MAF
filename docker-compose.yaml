@@ -1,0 +1,91 @@
+version: '3.7'
+services:
+  zookeeper:
+    image: debezium/zookeeper:${VERSION}
+    hostname: zookeeper
+    ports:
+     - 2181:2181
+     - 2888:2888
+     - 3888:3888
+  kafka:
+    image: debezium/kafka:${VERSION}
+    hostname: kafka
+    ports:
+     - 9092:9092
+    depends_on:
+     - zookeeper
+    environment:
+     - ZOOKEEPER_CONNECT=zookeeper:2181
+  mysql:
+    image: debezium/example-mysql:${VERSION}
+    hostname: mysql
+    ports:
+     - 3306:3306
+    environment:
+     - MYSQL_ROOT_PASSWORD=debezium
+     - MYSQL_USER=mysqluser
+     - MYSQL_PASSWORD=mysqlpw
+  postgres:
+    image: debezium/example-postgres:${VERSION}
+    hostname: postgres
+    ports:
+     - 5432:5432
+    environment:
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=postgres
+  mongodb:
+    image: mongodb
+    hostname: mongodb
+    ports:
+     - 27017:27017
+    environment:
+     - MONGODB_USER=debezium
+     - MONGODB_PASSWORD=dbz
+  mysql_producer:
+    image: mysql-producer
+    hostname: mysql_producer
+    depends_on:
+     - mysql
+  postgres_producer:
+    image: postgres-producer
+    hostname: postgres_producer
+    depends_on:
+     - postgres
+  mongodb_producer:
+    image: mongodb-producer
+    hostname: mongodb_producer
+    depends_on:
+     - mongodb
+  connect:
+    image: debezium/connect:${VERSION}
+    hostname: connect
+    ports:
+     - 8083:8083
+    depends_on:
+     - kafka
+     - mysql
+     - postgres
+     - mongodb
+    environment:
+     - BOOTSTRAP_SERVERS=kafka:9092
+     - GROUP_ID=1
+     - CONFIG_STORAGE_TOPIC=my_connect_configs
+     - OFFSET_STORAGE_TOPIC=my_connect_offsets
+     - STATUS_STORAGE_TOPIC=my_connect_statuses
+     - LOG_LEVEL=WARN
+  connect-client:
+    image: connect-client
+    hostname: connect-client
+    depends_on:
+     - connect
+  ksql:
+    image: confluentinc/cp-ksql-server:5.3.1
+    hostname: ksql
+    ports:
+     - 8088:8088
+    depends_on: 
+     - connect-client
+    environment:
+     - KSQL_BOOTSTRAP_SERVERS=kafka:9092
+     - KSQL_LISTENERS=http://0.0.0.0:8088/
+     - KSQL_KSQL_SERVICE_ID=ksql_maf_

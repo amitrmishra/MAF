@@ -1,0 +1,40 @@
+CREATE STREAM movie_ids_source(
+  payload STRUCT<
+    after STRUCT<original_title VARCHAR(255), popularity DOUBLE, id INT, video INT, adult INT>
+    >)
+WITH (KAFKA_TOPIC='mysql.maf.movie_ids', VALUE_FORMAT='JSON');
+
+CREATE STREAM tv_series_ids_source(
+  payload STRUCT<
+    after STRUCT<original_name VARCHAR(255), popularity DOUBLE, id INT>
+    >)
+WITH (KAFKA_TOPIC='postgres.maf.tv_series_ids', VALUE_FORMAT='JSON');
+
+CREATE STREAM person_ids_source(
+  payload STRUCT<
+    after STRUCT<name VARCHAR(255), popularity DOUBLE, id INT, adult VARCHAR(255), _id VARCHAR(255)>
+    >)
+WITH (KAFKA_TOPIC='mongodb.maf.person_ids', VALUE_FORMAT='JSON');
+
+
+CREATE STREAM movie_ids_data(original_title VARCHAR(255), popularity DOUBLE, id INT, video BOOLEAN, adult BOOLEAN)
+WITH (KAFKA_TOPIC='movie_ids_data', VALUE_FORMAT='JSON', PARTITIONS=2, REPLICAS=1);
+
+CREATE STREAM tv_series_ids_data(original_name VARCHAR(255), popularity DOUBLE, id INT)
+WITH (KAFKA_TOPIC='tv_series_ids_data', VALUE_FORMAT='JSON', PARTITIONS=2, REPLICAS=1);
+
+
+INSERT INTO movie_ids_data
+SELECT payload->after->original_title AS original_title, 
+  payload->after->popularity AS popularity, 
+  payload->after->id AS id, 
+  CASE WHEN payload->after->video = 1 THEN true ELSE false END AS video, 
+  CASE WHEN payload->after->adult = 1 THEN true ELSE false END AS adult
+FROM movie_ids_source;
+
+
+INSERT INTO tv_series_ids_data
+SELECT payload->after->original_name AS original_name, 
+  payload->after->popularity AS popularity, 
+  payload->after->id AS id
+FROM tv_series_ids_source;
